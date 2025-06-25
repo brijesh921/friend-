@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For My Chutiyas 😎</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, #a8f5a2, #65d7d0);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .hearts {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      color: red;
+      font-size: 24px;
+      animation: float 5s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      z-index: 10;
+      animation: popIn 0.6s ease-out;
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    button {
+      padding: 12px 24px;
+      margin: 10px;
+      border: none;
+      border-radius: 30px;
+      background: #28a745;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform 0.2s ease, background 0.3s;
+    }
+
+    button:hover {
+      background: #218838;
+      transform: scale(1.05);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .final-msg {
+      position: relative;
+      z-index: 9;
+      font-size: 1.4em;
+      padding: 25px;
+      color: white;
+      text-shadow: 2px 2px 5px #000;
+      text-align: center;
+      max-width: 600px;
+      margin: 40px auto;
+      animation: popIn 1s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Hearts -->
+  <div class="hearts" id="hearts"></div>
+
+  <!-- Audio -->
+  <audio id="bgmusic" src="https://media.vocaroo.com/mp3/1bZuXpjYZfbd"></audio>
+
+  <!-- Step 1: Music -->
+  <div class="box" id="box1">
+    <p>🎶 Want to play the music?</p>
+    <button onclick="playMusic()">Yes</button>
+    <button onclick="hideBox('box1')">No</button>
+  </div>
+
+  <!-- Step 2: Go Ahead -->
+  <div class="box hidden" id="box2">
+    <p>Shall we go ahead?</p>
+    <button onclick="nextBox()">Go Ahead</button>
+    <button onclick="hideBox('box2')">Stay Back</button>
+  </div>
+
+  <!-- Step 3: Special Day Message -->
+  <div class="box hidden" id="box3">
+    <p id="specialMsg">It's your special day yeye!!</p>
+  </div>
+
+  <!-- Final Message -->
+  <div class="final-msg hidden" id="finalMsg">
+    <h2>🎉 In the world full of mfs, I found chutiyas 😎</h2>
+    </p>
+  </div>
+
+  <script>
+    // Floating Hearts
+    const hearts = document.getElementById("hearts");
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = 20 + Math.random() * 20 + "px";
+      heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+      hearts.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+    setInterval(createHeart, 120);
+
+    // Music with 20s start
+    const music = document.getElementById("bgmusic");
+
+    function playMusic() {
+      music.currentTime = 20;
+      music.play();
+      hideBox("box1");
+      setTimeout(() => {
+        document.getElementById("box2").classList.remove("hidden");
+      }, 500);
+    }
+
+    function hideBox(id) {
+      document.getElementById(id).classList.add("hidden");
+    }
+
+    function nextBox() {
+      hideBox("box2");
+      const box3 = document.getElementById("box3");
+      box3.classList.remove("hidden");
+
+      setTimeout(() => {
+        document.getElementById("specialMsg").innerText = "I have made something special for you, wanna go ahead?";
+        box3.innerHTML += `
+          <br><br>
+          <button onclick="finalWish()">Yes</button>
+          <button onclick="hideBox('box3')">No</button>
+        `;
+      }, 2500);
+    }
+
+    function finalWish() {
+      hideBox("box3");
+      document.getElementById("finalMsg").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
